@@ -2,7 +2,7 @@
  * khayr.js: библиотека разных функции
  *
  * @author KhayR (http://khayrulla.com)
- * @version 0.1.0
+ * @version 0.1.1
  */
 
 
@@ -247,7 +247,7 @@ jQuery.fn.outer = function() {
 // random от min до max
 function getRandomArbitary(min, max)
 {
-	return Math.random() * (max - min) + min;
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 
@@ -259,4 +259,22 @@ function addDays(date, n)
 	var d = new Date();	
 	d.setTime(date.getTime() + n * 24 * 60 * 60 * 1000);
 	return d;
+}
+
+
+/* Массивы */
+
+// перемешивание массива
+function shuffle(arr)
+{
+	var arrlen = arr.length-1;
+	while (arrlen > 1)
+	{
+		r_i = random(0, arrlen-1);
+		v = arr[r_i];
+		arr[r_i] = arr[arrlen];
+		arr[arrlen] = v;
+		arrlen--;
+	}
+	return arr;
 }
