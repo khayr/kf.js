@@ -1,8 +1,10 @@
 /**
- * khayr.js: библиотека разных функции
+ * khayr.js
+ *
+ * Набор нужных функций.
  *
  * @author KhayR (http://khayrulla.com)
- * @version 0.1.1
+ * @version 0.1.4
  */
 
 
@@ -157,67 +159,6 @@ function getElementPosition(elemId)
 }
 
 
-/* Аналог jQuery ready (вызывать onReady!): http://javascript.ru/tutorial/events/ondomcontentloaded */
-
-readyList = [];
-function bindReady(handler)
-{
-	var called = false
-	function ready() { // (1)
-		if (called) return
-		called = true
-		handler()
-	}
-	if ( document.addEventListener ) { // (2)
-		document.addEventListener( "DOMContentLoaded", function(){
-			ready()
-		}, false )
-	} else if ( document.attachEvent ) {  // (3)
-		// (3.1)
-		if ( document.documentElement.doScroll && window == window.top ) {
-			function tryScroll(){
-				if (called) return
-				if (!document.body) return
-				try {
-					document.documentElement.doScroll("left")
-					ready()
-				} catch(e) {
-					setTimeout(tryScroll, 0)
-				}
-			}
-			tryScroll()
-		}
-		// (3.2)
-		document.attachEvent("onreadystatechange", function(){
-			if ( document.readyState === "complete" ) {
-				ready()
-			}
-		})
-	}
-	// (4)
-    if (window.addEventListener)
-        window.addEventListener('load', ready, false)
-    else if (window.attachEvent)
-        window.attachEvent('onload', ready)
-    /*  else  // (4.1)
-        window.onload=ready
-	*/
-}
-function onReady(handler)
-{
-	if (!readyList.length)
-	{
-		bindReady(function() {
-			for (var i = 0; i < readyList.length; i++)
-			{
-				readyList[i]()
-			}
-		})
-	}
-	readyList.push(handler)
-}
-
-
 /* Валидация */
 
 // проверка формата e-mail
@@ -242,7 +183,7 @@ jQuery.fn.outer = function() {
 }
 
 
-/* Random */
+/* Числа */
 
 // random от min до max
 function getRandomArbitary(min, max)
@@ -270,11 +211,26 @@ function shuffle(arr)
 	var arrlen = arr.length-1;
 	while (arrlen > 1)
 	{
-		r_i = random(0, arrlen-1);
+		r_i = getRandomArbitary(0, arrlen-1);
 		v = arr[r_i];
 		arr[r_i] = arr[arrlen];
 		arr[arrlen] = v;
 		arrlen--;
 	}
 	return arr;
+}
+
+
+/* Строки */
+
+function trim(str)
+{
+	try
+	{
+		return str.trim();
+	}
+	catch(e)
+	{
+		return str.replace(/^\s+|\s+$/gm, '');
+	}
 }
